@@ -43,7 +43,7 @@ const MailEditor = () => {
     };
     console.log(newData);
     axios
-      .post(`${import.meta.env.VITE_SERVER_URL_DEV}/api/mail/send`, {
+      .post(`https://maily.onrender.com/api/mail/send`, {
         data: newData,
       })
       .then((res) => {
