@@ -1,30 +1,27 @@
 import { useState, useEffect } from "react";
-// import axios from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Table = (props) => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "johndoe@mail.com",
-    },
-    {
-      id: 2,
-      name: "Jane Eyre",
-      email: "jane@mail.com",
-    },
-    {
-      id: 3,
-      name: "Jack",
-      email: "jack@example.com",
-    },
-  ]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [selected, setSelected] = useState([]);
   
   const navigate = useNavigate();
+
+  const fetchData = () => {
+    setLoading(true)
+    axios.get(`${import.meta.env.VITE_SERVER_URL_DEV}/api/mail/list`)
+    .then((res) => {
+      setData(res.data.clients)
+      setLoading(false)
+    })
+  }
+
+  // useEffect(() => {
+  //   fetchData()
+  // }, [data.length===0])
 
   const handleSend = (e) => {
     console.log("redirecting to mail editor");
@@ -52,10 +49,6 @@ const Table = (props) => {
     
   };
 
-  const fetchData = () => {
-    console.log("fetching data");
-    
-  };
 
   const handleAddClient = (e) => {
     e.preventDefault()
@@ -68,15 +61,13 @@ const Table = (props) => {
         email: newEmail}]:data)
   }
 
-  useEffect(() => {
-    fetchData();
-  }, [data.length === 0]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [data.length === 0]);
 
   return (
     <>
-      {loading ? (
-        <i className="fas fa-spin fa-spinner fa-2x"></i>
-      ) : data.length === 0 ? (
+      { data.length === 0 ? (
         <div
           className="w-1/3 translate-x-full bg-blue-100 rounded border border-blue-500 text-blue-700 px-4 py-3"
           role="alert"
@@ -110,7 +101,9 @@ const Table = (props) => {
             <button className="mx-1 my-2 h-fit w-1/6 relative m-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">Add client</button>
             </form>
             </div>
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            {loading ? (
+        <div className="w-full h-full flex items-center justify-center"><i className="fas fa-spin fa-spinner fa-2x h-fit"></i>
+      </div>) :<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
@@ -182,7 +175,7 @@ const Table = (props) => {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table>}
             {(selected.length>1)?
           <div className="flex justify-end p-2 ">
             <button onClick={handleMassSend} className="w-1/3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
