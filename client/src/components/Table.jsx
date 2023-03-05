@@ -12,7 +12,7 @@ const Table = (props) => {
 
   const fetchData = () => {
     setLoading(true)
-    axios.get(`${import.meta.env.VITE_SERVER_URL_DEV}/api/mail/list`)
+    axios.get(`https://maily.onrender.com/api/mail/list`)
     .then((res) => {
       setData(res.data.clients)
       setLoading(false)
