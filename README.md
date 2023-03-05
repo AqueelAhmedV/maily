@@ -4,7 +4,7 @@ This project was submitted to devpost as a part of **Hack for Creators** Hackath
 Links:\
 [Devpost](https://devpost.com/software/maily)\
 [Github Repo](https://github.com/AqueelAhmedV/maily)\
-[preview](https://maily-alpha.vercel.app/)\
+[preview](https://maily-alpha.vercel.app/)
 
 ## Inspiration
 As the number of subscribers and followers grows, managing email campaigns can become a time-consuming and overwhelming task. An efficient email marketing tool that automates repetitive tasks such as scheduling, managing lists, and personalizing emails can save content creators valuable time and resources. 
