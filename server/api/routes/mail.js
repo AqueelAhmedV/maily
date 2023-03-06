@@ -36,15 +36,18 @@ router.post('/send', async (req, res) => {
     subject: "Hello ✔", // Subject line
     text: mailData.mailBody.plainText, // plain text body
     html: mailData.mailBody.html, // html body
-  });
-   }
-   catch (err) {
-    return res.status(400).json({msg:"mail not send", error: err.data, val: err.message})
-   }
+  }
+  );
   console.log("Message sent: %s", info.messageId);
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-
   return res.status(200).json({msg: "success", preview: nodemailer.getTestMessageUrl(info)})
+   }
+   catch (err) {
+    console.log(err)
+    return res.status(400).json({msg:"mail not send", error: err.data, val: err.message})
+   }
+  
+
 
 })
 
