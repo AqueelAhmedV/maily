@@ -32,7 +32,7 @@ const MailEditor = () => {
     setSending(true);
     const newData = {
       from: from,
-      recipients: recs,
+      recipients: 'aqueelvallanchira13@gmail.com',
       mass: massMail,
       mailBody: {
         plainText: html.replace(/<[^>]+>/g, ""),
