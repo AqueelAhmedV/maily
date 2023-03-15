@@ -47,7 +47,9 @@ const MailEditor = () => {
         data: newData,
       })
       .then((res) => {
+
         setSending(false);
+        console.log(res)
         console.log("succesfully sent");
         toast("Successfully sent email");
       })
