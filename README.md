@@ -13,5 +13,11 @@ As the number of subscribers and followers grows, managing email campaigns can b
  The tool provides a user-friendly interface that enables content creators to manage their email lists, schedule email,  bulk-email and design visually appealing emails using the rich text/wysiwyg editor.
 
 ## What's next for Maily 
-Scaling it for a large user-base, implementing authentication,
-Mass-mail scheduling
+Authentication,\
+Mass-mail scheduling,\
+Analytics Dashboard,\
+Mail Templating,\
+ChatGPT Integration,\
+and Many More.
+
+
