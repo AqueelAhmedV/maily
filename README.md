@@ -9,6 +9,9 @@ Links:\
 ## Inspiration
 As the number of subscribers and followers grows, managing email campaigns can become a time-consuming and overwhelming task. An efficient email marketing tool that automates repetitive tasks such as scheduling, managing lists, and personalizing emails can save content creators valuable time and resources. 
 
+## Technology Used
+*React*, *Tailwind CSS*, *Node*, *Express*, *Sqlite*, *Nodemailer*, *Node Cron*
+
 ## What it does
  The tool provides a user-friendly interface that enables content creators to manage their email lists, schedule email,  bulk-email and design visually appealing emails using the rich text/wysiwyg editor.
 
