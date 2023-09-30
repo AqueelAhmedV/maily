@@ -1,6 +1,7 @@
 var sqlite3 = require("sqlite3").verbose();
+const path = require("path")
 
-const DBSOURCE = "db.sqlite";
+const DBSOURCE = path.resolve(__dirname,`./db.sqlite`);
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) {
