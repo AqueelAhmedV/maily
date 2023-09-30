@@ -5,3 +5,21 @@
 * {
     font-family: "Helvetica";
 }
+
+.landing-section {
+    background-image: url(./assets/bg_hq.webp), url(./assets/bg_sm.webp);
+    animation: bgFadeIn 1s ease-in-out;
+}
+
+
+@keyframes bgFadeIn {
+    0% {
+        opacity: 0.2;
+        background-image: url(./assets/bg_sm.webp);
+    }
+    100% {
+        opacity: 1;
+        background-image: url(./assets/bg_hq.webp);
+    }
+}
+

@@ -8,20 +8,50 @@ import "react-clock/dist/Clock.css";
 import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { routes } from "../constants";
+import Spinner from "./Spinner";
 
 const MailEditor = () => {
   const {
     state: { persons: recipients, massMail: massMail },
   } = useLocation();
   console.log(massMail);
-  const [html, setHtml] = useState("my <b>HTML</b>");
   const [recs, setRecs] = useState(recipients);
   const [scheduleTime, setScheduleTime] = useState(new Date());
   const [from, setFrom] = useState("aqueel.ahmedv.iitkgp@gmail.com");
   const [sending, setSending] = useState(false);
+  const [templates, setTemplates] = useState({
+    "leave-letter": {
+      title: "Leave letter",
+      html: `<div>
+      Good <b>Morning</b>
+      <br/>I want leave
+      </div>`
+    },
+    "seeking-project": {
+      title: "Seeking project under a professor",
+      html: `
+      <div>
+      Hey there fellas!<br/>
+      Good <b>Morning</b>
+      </div>`
+    },
+    "select-one": {
+      title: "Choose a template",
+      html: ''
+    }
+  })
+  const [currTemplate, setCurrTemplate] = useState("select-one")
+  const [html, setHtml] = useState("Select a template, or create a custom one");
+
   useEffect(() => {
     setRecs(recipients);
   }, [recipients !== undefined]);
+
+  const handleTemplateChange = (e) => {
+    setCurrTemplate(e.target.value)
+    setHtml(templates[e.target.value].html)
+  }
 
   function handleMailEdit(e) {
     setHtml(e.target.value);
@@ -43,7 +73,7 @@ const MailEditor = () => {
     };
     console.log(newData);
     axios
-      .post(`https://maily.onrender.com/api/mail/send`, {
+      .post(`${routes.SERVER_URL}/api/mail/send`, {
         data: newData,
       })
       .then((res) => {
@@ -93,11 +123,19 @@ const MailEditor = () => {
           readOnly={true}
         />
       </div>
+      <div>
+        <select defaultValue={"select-one"} value={currTemplate} onChange={handleTemplateChange}>
+          {Object.entries(templates).map((t) => (
+            <option value={t[0]}>{t[1].title}</option>
+          ))}
+        </select>
+      </div>
       <div className="my-3 w-1/2 h-1/3">
         <DefaultEditor value={html} onChange={handleMailEdit} className="" />
       </div>
       {sending ? (
-        <div className="w-full h-full flex items-center justify-center"><i className="fas fa-spin fa-spinner fa-2x h-fit"></i>
+        <div className="w-full flex items-center justify-center">
+          <Spinner/>
       </div>) :<div className="btns flex justify-between w-1/2">
         <div className="flex justify-around w-2/3">
           <DateTimePicker value={scheduleTime} onChange={setScheduleTime} />

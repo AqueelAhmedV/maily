@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { routes } from "../constants";
 
 const Table = (props) => {
   const [data, setData] = useState([]);
@@ -12,16 +13,16 @@ const Table = (props) => {
 
   const fetchData = () => {
     setLoading(true)
-    axios.get(`https://maily.onrender.com/api/mail/list`)
+    axios.get(`${routes.SERVER_URL}/api/mail/list`)
     .then((res) => {
       setData(res.data.clients)
       setLoading(false)
     })
   }
 
-  // useEffect(() => {
-  //   fetchData()
-  // }, [data.length===0])
+  useEffect(() => {
+    fetchData()
+  }, [data.length===0])
 
   const handleSend = (e) => {
     console.log("redirecting to mail editor");
@@ -66,10 +67,10 @@ const Table = (props) => {
   // }, [data.length === 0]);
 
   return (
-    <>
+    <div className='w-full h-full flex flex-col items-center justify-center -translate-y-10'>
       { data.length === 0 ? (
         <div
-          className="w-1/3 translate-x-full bg-blue-100 rounded border border-blue-500 text-blue-700 px-4 py-3"
+          className="w-1/3 -translate-y-3 bg-blue-100 rounded border border-blue-500 text-blue-700 px-4 py-3"
           role="alert"
         >
           <p className="font-bold">No data available</p>
@@ -186,7 +187,7 @@ const Table = (props) => {
           
         </div>
       )}
-    </>
+    </div>
   );
 };
 
