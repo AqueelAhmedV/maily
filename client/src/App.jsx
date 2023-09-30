@@ -19,7 +19,6 @@ function App() {
           <Route path='/dashboard' element={<Dashboard/>}/>
           <Route path='/send-mail' element={<MailEditor/>}/>
           <Route path="*" element={<NotFoundPage/>} />
-          
           </Routes>
       </BrowserRouter>
     </div>
