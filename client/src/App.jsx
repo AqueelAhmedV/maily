@@ -6,6 +6,7 @@ import Landing from './pages/Landing'
 import Dashboard from './pages/Dashboard'
 import MailEditor from './components/MailEditor'
 import Navbar from './components/Navbar'
+import NotFoundPage from './pages/NotFound'
 
 function App() {
 
@@ -17,7 +18,9 @@ function App() {
           <Route exact path="/" element={<Landing/>}/>
           <Route path='/dashboard' element={<Dashboard/>}/>
           <Route path='/send-mail' element={<MailEditor/>}/>
-        </Routes>
+          <Route path="*" element={<NotFoundPage/>} />
+          
+          </Routes>
       </BrowserRouter>
     </div>
   )

@@ -21,15 +21,15 @@ const Navbar = () => {
         <Link to="/" className="block mt-4 lg:inline-block lg:mt-0 text-purple-200 hover:text-white mr-4">
           Home
         </Link>
-        <a href="/examples" className="block mt-4 lg:inline-block lg:mt-0 text-purple-200 hover:text-white mr-4">
+        <Link to="/examples" className="block mt-4 lg:inline-block lg:mt-0 text-purple-200 hover:text-white mr-4">
           Examples
-        </a>
-        <a href="/pricing" className="block mt-4 lg:inline-block lg:mt-0 text-purple-200 hover:text-white mr-4">
+        </Link>
+        <Link to="/pricing" className="block mt-4 lg:inline-block lg:mt-0 text-purple-200 hover:text-white mr-4">
             Pricing
-          </a>
-        <a href="/about" className="block mt-4 lg:inline-block lg:mt-0 text-purple-200 hover:text-white">
+          </Link>
+        <Link to="/about" className="block mt-4 lg:inline-block lg:mt-0 text-purple-200 hover:text-white">
           About
-        </a>
+        </Link>
       </div>
       <div>
             {/* <a href="/register" className=" inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Get Started</a>
