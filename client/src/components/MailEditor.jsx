@@ -61,8 +61,8 @@ const MailEditor = () => {
   function handleMailSend(e) {
     setSending(true);
     const newData = {
-      from: from,
-      recipients: 'aqueelvallanchira13@gmail.com',
+      // from: from,
+      recipients: recs.map(r => r.email),
       mass: massMail,
       mailBody: {
         plainText: html.replace(/<[^>]+>/g, ""),

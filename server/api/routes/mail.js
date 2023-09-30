@@ -16,22 +16,23 @@ router.get('/list', (req, res) => {
 })
 
 router.post('/send', async (req, res) => {
-    let testAccount = await nodemailer.createTestAccount();
   // create reusable transporter object using the default SMTP transport
+  // console.log(process.env)
+  console.log(req.body)
   let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    host: "smtp.googlemail.com",
+    service: "Gmail",
+    secure: true,
     auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass, // generated ethereal password
+      user: process.env.G_USER_EMAIL,
+      pass: process.env.G_APP_PASS, 
     },
   });
   var mailData = req.body.data;
   // send mail with defined transport object
    try{
     let info = await transporter.sendMail({
-    from: '"Maily App" '+mailData.from, // sender address
+    from: process.env.G_USER_EMAIL, // sender address
     to: mailData.recipients, // list of receivers
     subject: "Hello ✔", // Subject line
     text: mailData.mailBody.plainText, // plain text body
