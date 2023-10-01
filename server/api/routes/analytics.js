@@ -4,7 +4,8 @@ const fs = require('fs')
 const path = require("path")
 
 router.get("/track-mail", async (req, res) => {
-    console.log(req)
+    console.log("Mail opened")
+    // console.log(req.body)
     res.setHeader("Content-Type", "image/webp");
     res.send(fs.readFileSync(path.resolve(__dirname, "../assets/1x1.webp")))
 })

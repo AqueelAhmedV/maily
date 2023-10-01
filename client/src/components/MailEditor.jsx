@@ -46,6 +46,10 @@ const MailEditor = () => {
   const [html, setHtml] = useState("Select a template, or create a custom one");
 
   useEffect(() => {
+    console.log(html)
+  }, [html])
+
+  useEffect(() => {
     if (recipients)
     setRecs(recipients);
     console.log(recipients)
@@ -53,7 +57,7 @@ const MailEditor = () => {
 
   const handleToggleTrack = (e) => {
     if (track)
-    setHtml(html.append(`<img src="${routes.SERVER_URL}/api/analytics/track-mail">`))
+    setHtml(html+`<img src="${routes.SERVER_URL}/api/analytics/track-mail" onerror='this.style.display = "none"'>`)
     setTrack(!track)
   }
 
@@ -64,17 +68,17 @@ const MailEditor = () => {
 
   function handleMailEdit(e) {
     setHtml(e.target.value);
-    console.log(html);
   }
 
   function handleMailSend(e) {
     setSending(true);
+    console.log(html)
     const newData = {
       // from: from,
       recipients: recs,
       mass: massMail,
       mailBody: {
-        plainText: html.replace(/<[^>]+>/g, ""),
+        // plainText: html.replace(/<[^>]+>/g, ""),
         html: html,
       },
       schedule: false,
@@ -132,7 +136,7 @@ const MailEditor = () => {
         />
       </div>
       <div className="flex justify-around my-2 w-[80%]">
-        <select defaultValue={"select-one"} value={currTemplate} onChange={handleTemplateChange}>
+        <select defaultValue={currTemplate} value={currTemplate} onChange={handleTemplateChange}>
           {Object.entries(templates).map((t) => (
             <option value={t[0]}>{t[1].title}</option>
           ))}
