@@ -27,7 +27,7 @@ const Table = (props) => {
   const handleSend = (e) => {
     console.log("redirecting to mail editor");
     navigate("/send-mail", {
-      state: { persons: data[parseInt(e.target.id) - 1], massMail: false },
+      state: { persons: data, massMail: false },
     });
   };
 
