@@ -7,7 +7,7 @@ router.get("/track-mail", async (req, res) => {
     console.log("Mail opened")
     // console.log(req.body)
     res.setHeader("Content-Type", "image/webp");
-    res.send(fs.readFileSync(path.resolve(__dirname, "../assets/1x1.webp")))
+    res.send(fs.readFileSync(path.resolve(__dirname, "../assets/1.png")))
 })
 
 module.exports = router
