@@ -45,6 +45,11 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       name: "Jack",
       email: "jack@example.com",
     },
+    {
+      id: 4,
+      name: "Test",
+      email: "test.aqueel.v@gmail.com"
+    }
   ].forEach(p => db.all("SELECT * from clients",(err, data) => {
     if(err) {
       return console.log(err)

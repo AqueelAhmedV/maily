@@ -33,7 +33,7 @@ router.post('/send', async (req, res) => {
    try{
     let info = await transporter.sendMail({
     from: process.env.G_USER_EMAIL, // sender address
-    to: mailData.recipients, // list of receivers
+    to: mailData.recipients.map((r) => r.email), // list of receivers
     subject: "Hello ✔", // Subject line
     text: mailData.mailBody.plainText, // plain text body
     html: mailData.mailBody.html, // html body

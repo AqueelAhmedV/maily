@@ -27,7 +27,7 @@ const Table = (props) => {
   const handleSend = (e) => {
     console.log("redirecting to mail editor");
     navigate("/send-mail", {
-      state: { persons: data, massMail: false },
+      state: { persons: data.filter(d => selected.includes(d.id)), massMail: false },
     });
   };
 

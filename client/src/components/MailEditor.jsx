@@ -62,7 +62,7 @@ const MailEditor = () => {
     setSending(true);
     const newData = {
       // from: from,
-      recipients: recs.map(r => r.email),
+      recipients: recs,
       mass: massMail,
       mailBody: {
         plainText: html.replace(/<[^>]+>/g, ""),
