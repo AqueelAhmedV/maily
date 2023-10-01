@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
+import { flushSync } from "react-dom";
 
 const Table = (props) => {
   const [data, setData] = useState([]);
@@ -26,6 +27,17 @@ const Table = (props) => {
 
   const handleSend = (e) => {
     console.log("redirecting to mail editor");
+    if (document.startViewTransition) {
+      console.log("yes")
+      document.startViewTransition(() => {
+        console.log("vT")
+        flushSync(() => {
+          navigate("/send-mail", {
+            state: { persons: data.filter(d => d.id===parseInt(e.target.id)), massMail: false },
+          });
+        })    
+      })
+    }else
     navigate("/send-mail", {
       state: { persons: data.filter(d => selected.includes(d.id)), massMail: false },
     });
@@ -132,6 +144,10 @@ const Table = (props) => {
                   <tr
                     key={i}
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    // style={{
+                    //   viewTransitionName: "mail-edit",
+                    //   contain: "layout"
+                    // }}
                   >
                     <td
                       scope="row"

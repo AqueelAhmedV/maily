@@ -15,11 +15,12 @@ const MailEditor = () => {
   const {
     state: { persons: recipients, massMail: massMail },
   } = useLocation();
-  console.log(massMail);
+  // console.log(massMail);
   const [recs, setRecs] = useState(recipients);
   const [scheduleTime, setScheduleTime] = useState(new Date());
-  const [from, setFrom] = useState("aqueel.ahmedv.iitkgp@gmail.com");
+  const [from, setFrom] = useState("ncrypt.test@gmail.com");
   const [sending, setSending] = useState(false);
+  const [track, setTrack] = useState(false)
   const [templates, setTemplates] = useState({
     "leave-letter": {
       title: "Leave letter",
@@ -45,8 +46,16 @@ const MailEditor = () => {
   const [html, setHtml] = useState("Select a template, or create a custom one");
 
   useEffect(() => {
+    if (recipients)
     setRecs(recipients);
-  }, [recipients !== undefined]);
+    console.log(recipients)
+  }, [recipients]);
+
+  const handleToggleTrack = (e) => {
+    if (track)
+    setHtml(html.append(`<img src="${routes.SERVER_URL}/api/analytics/track-mail">`))
+    setTrack(!track)
+  }
 
   const handleTemplateChange = (e) => {
     setCurrTemplate(e.target.value)
@@ -71,7 +80,7 @@ const MailEditor = () => {
       schedule: false,
       scheduleTime: scheduleTime,
     };
-    console.log(newData);
+    // console.log(newData);
     axios
       .post(`${routes.SERVER_URL}/api/mail/send`, {
         data: newData,
@@ -91,7 +100,10 @@ const MailEditor = () => {
   }
 
   return (
-    <div className="h-screen p-4 flex justify-center items-center flex-col min-w-500">
+    <div className="h-screen p-4 flex justify-center items-center flex-col min-w-500" style={{
+      // viewTransitionName: "mail-edit",
+      // contain: "layout"
+    }}>
       <ToastContainer />
       <div className="w-1/2 flex justify-between h-fit">
         <label className="w-1/5 py-2 text-gray-500">From:</label>
@@ -111,24 +123,23 @@ const MailEditor = () => {
           aria-label="Recipient name(s)"
           aria-describedby="basic-addon2"
           value={
-            massMail
-              ? [recipients.map((r, i) => r.name)].join(", ")
-              : recipients.name
+            recipients.map((r, i) => r.name).join(", ")
           }
           title={
-            massMail
-              ? [recipients.map((r, i) => r.email)].join(", ")
-              : recipients.email
+            recipients.map((r, i) => r.email).join(", ")
           }
           readOnly={true}
         />
       </div>
-      <div>
+      <div className="flex justify-around my-2 w-[80%]">
         <select defaultValue={"select-one"} value={currTemplate} onChange={handleTemplateChange}>
           {Object.entries(templates).map((t) => (
             <option value={t[0]}>{t[1].title}</option>
           ))}
         </select>
+        <button onClick={handleToggleTrack}>
+          Tracking: {track?"ON":"OFF"}
+        </button>
       </div>
       <div className="my-3 w-1/2 h-1/3">
         <DefaultEditor value={html} onChange={handleMailEdit} className="" />

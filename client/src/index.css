@@ -11,6 +11,10 @@
     animation: bgFadeIn 1s ease-in-out;
 }
 
+::view-transition {
+    animation-duration: 1s;
+}
+
 
 @keyframes bgFadeIn {
     0% {
