@@ -10,7 +10,7 @@
     "express": "^4.18.2",
     "nodemailer": "^6.9.1",
     "sequelize": "^6.33.0",
-    "sqlite3": "^5.1.4",
+    "sqlite3": "^5.1.6",
     "uid": "^2.0.2"
   },
   "devDependencies": {
