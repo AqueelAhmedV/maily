@@ -8,8 +8,9 @@ import "react-clock/dist/Clock.css";
 import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { routes } from "../constants";
+import { routes, tracking } from "../constants";
 import Spinner from "./Spinner";
+import { Button } from "./common/Button";
 
 const MailEditor = () => {
   const {
@@ -22,6 +23,10 @@ const MailEditor = () => {
   const [sending, setSending] = useState(false);
   const [track, setTrack] = useState(false)
   const [templates, setTemplates] = useState({
+    "default": {
+      title: "Choose Template",
+      html: ``
+    },
     "leave-letter": {
       title: "Leave letter",
       html: `<div>
@@ -36,14 +41,10 @@ const MailEditor = () => {
       Hey there fellas!<br/>
       Good <b>Morning</b>
       </div>`
-    },
-    "select-one": {
-      title: "Choose a template",
-      html: ''
     }
   })
-  const [currTemplate, setCurrTemplate] = useState("select-one")
-  const [html, setHtml] = useState("Select a template, or create a custom one");
+  const [currTemplate, setCurrTemplate] = useState("default")
+  const [html, setHtml] = useState("");
 
   useEffect(() => {
     console.log(html)
@@ -55,9 +56,11 @@ const MailEditor = () => {
     console.log(recipients)
   }, [recipients]);
 
+  useEffect(() => {
+    console.log(recs)
+  }, [recs])
+
   const handleToggleTrack = (e) => {
-    if (track)
-    setHtml(html+`<img src="${routes.SERVER_URL}/api/analytics/track-mail" onerror='this.style.display = "none"'>`)
     setTrack(!track)
   }
 
@@ -79,7 +82,7 @@ const MailEditor = () => {
       mass: massMail,
       mailBody: {
         // plainText: html.replace(/<[^>]+>/g, ""),
-        html: html,
+        html: html + (tracking ? tracking.mail: ""),
       },
       schedule: false,
       scheduleTime: scheduleTime,
@@ -94,81 +97,81 @@ const MailEditor = () => {
         setSending(false);
         console.log(res)
         console.log("succesfully sent");
-        toast("Successfully sent email");
+        toast.success("Successfully sent email");
       })
       .catch((err) => {
         setSending(false);
         console.log(err);
-        toast("Mail not sent");
+        toast.error("Mail not sent");
       });
   }
 
   return (
-    <div className="h-screen p-4 flex justify-center items-center flex-col min-w-500" style={{
+    <div className="flex h-4/5 justify-center items-center flex-col min-w-500 bg-[#333]" style={{
       // viewTransitionName: "mail-edit",
       // contain: "layout"
     }}>
       <ToastContainer />
-      <div className="w-1/2 flex justify-between h-fit">
-        <label className="w-1/5 py-2 text-gray-500">From:</label>
+      <div className="bg-white px-3 py-4 rounded-md aspect-square mt-3">
+      <div className="w-4/5 flex justify-between">
+        <label className="">From:</label>
         <input
           type="email"
-          className="w-4/5 pl-2 mx-1 my-2 w-3/6 relative m-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition ease-in-out focus:z-[3] focus:border-primary-600 focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200"
+          className=""
           value={from}
           onChange={(e) => setFrom(e.target.value)}
         />
       </div>
-      <div className="w-1/2 flex justify-between">
-        <label className="w-1/5 py-2 text-gray-500">Recipients:</label>
+      <div className="w-4/5 flex justify-between">
+        <label className="">Recipients:</label>
         <input
           type="text"
-          className="pl-2 w-4/5 relative m-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition ease-in-out focus:z-[3] focus:border-primary-600 focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200"
+          className=""
           placeholder="Recipient name(s)"
           aria-label="Recipient name(s)"
           aria-describedby="basic-addon2"
           value={
-            recipients.map((r, i) => r.name).join(", ")
+            recipients.map((r, i) => r.fullName).join(", ")
           }
           title={
-            recipients.map((r, i) => r.email).join(", ")
+            recipients.map((r, i) => r.emailId).join(", ")
           }
           readOnly={true}
         />
       </div>
-      <div className="flex justify-around my-2 w-[80%]">
-        <select defaultValue={currTemplate} value={currTemplate} onChange={handleTemplateChange}>
-          {Object.entries(templates).map((t) => (
-            <option value={t[0]}>{t[1].title}</option>
+      <div className="w-full flex justify-around">
+        <select placeholder="Select Template" onChange={handleTemplateChange}>
+          {Object.entries(templates).map((t,i) => (
+            <option key={i} value={t[0]}>{t[1].title}</option>
           ))}
         </select>
-        <button onClick={handleToggleTrack}>
-          Tracking: {track?"ON":"OFF"}
-        </button>
+        <Button style={track ? {
+            color: "var(--toastify-color-success"
+          }: {}} onClick={handleToggleTrack} text={`Tracking: ${track?"ON":"OFF"}`}/>
       </div>
-      <div className="my-3 w-1/2 h-1/3">
+      <div className="">
         <DefaultEditor value={html} onChange={handleMailEdit} className="" />
       </div>
-      {sending ? (
-        <div className="w-full flex items-center justify-center">
-          <Spinner/>
-      </div>) :<div className="btns flex justify-between w-1/2">
-        <div className="flex justify-around w-2/3">
+      <div className="">
+        <div className="">
           <DateTimePicker value={scheduleTime} onChange={setScheduleTime} />
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className=""
           >
             Schedule Send
           </button>
         </div>
-        <button
+        <Button
           type="submit"
           onClick={handleMailSend}
-          className="w-1/3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Send
-        </button>
-      </div>}
+          text={"Send Mail"}
+          loading={sending}
+          loadingText={"Sending..."}
+          // disabled={!sending}
+        />
+      </div>
+      </div>
     </div>
   );
 };

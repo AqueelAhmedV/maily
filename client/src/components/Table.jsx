@@ -29,11 +29,12 @@ const Table = (props) => {
     console.log("redirecting to mail editor");
     if (document.startViewTransition) {
       console.log("yes")
+      console.log(data)
       document.startViewTransition(() => {
         console.log("vT")
         flushSync(() => {
           navigate("/send-mail", {
-            state: { persons: data.filter(d => d.id===parseInt(e.target.id)), massMail: false },
+            state: { persons: data.filter(d => d.id===e.target.id), massMail: false },
           });
         })    
       })
@@ -66,12 +67,13 @@ const Table = (props) => {
   const handleAddClient = (e) => {
     e.preventDefault()
     const [{value: newName},{value: newEmail}] = e.target.elements
+    console.log(data)
     // errors yet to be implemented so erraneous entries prevented
-    setData((newEmail && newName && data.filter((d,i) => d.email===newEmail).length===0)?
+    setData((newEmail && newName && data.filter((d,i) => d.emailId===newEmail).length===0)?
     [...data, {
         id: data.length+1,
-        name: newName,
-        email: newEmail}]:data)
+        fullName: newName,
+        emailId: newEmail}]:data)
   }
 
   // useEffect(() => {
@@ -155,8 +157,8 @@ const Table = (props) => {
                     >
                       {i + 1}
                     </td>
-                    <td className="px-6 py-4">{s.name}</td>
-                    <td className="px-6 py-4">{s.email}</td>
+                    <td className="px-6 py-4">{s.fullName}</td>
+                    <td className="px-6 py-4">{s.emailId}</td>
                     <th className="px-6 py-4">
                       <button
                         onClick={handleSend}

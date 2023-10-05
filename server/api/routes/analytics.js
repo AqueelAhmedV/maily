@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const db = require('../database')
+const db = require('../../database')
 const fs = require('fs')
 const path = require("path")
 

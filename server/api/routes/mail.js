@@ -1,18 +1,25 @@
 const router = require('express').Router()
-const db = require('../database')
+const db = require('../../database')
 const nodemailer = require('nodemailer')
 
 
 
-router.get('/list', (req, res) => {
-    db.all('SELECT * from clients', (err, data) => {
-        if(err){
-            console.log(err)
-            return res.status(404).json(err)
-        } else {
-            return res.status(200).json({clients: data})
-        }
-    })
+router.get('/list', async (req, res) => {
+    // db.all('SELECT * from clients', (err, data) => {
+    //     if(err){
+    //         console.log(err)
+    //         return res.status(404).json(err)
+    //     } else {
+    //         return res.status(200).json({clients: data})
+    //     }
+    // })
+    try {
+      const users = await db.model("User").findAll()
+      res.status(200).json({clients: users})
+    } catch(err) {
+      res.status(404).json(err)
+    }
+    
 })
 
 router.post('/send', async (req, res) => {
@@ -26,14 +33,14 @@ router.post('/send', async (req, res) => {
     auth: {
       user: process.env.G_USER_EMAIL,
       pass: process.env.G_APP_PASS, 
-    },
+    }
   });
   var mailData = req.body.data;
   // send mail with defined transport object
    try{
     let info = await transporter.sendMail({
     from: process.env.G_USER_EMAIL, // sender address
-    to: mailData.recipients.map((r) => r.email), // list of receivers
+    to: mailData.recipients.map((r) => r.emailId), // list of receivers
     subject: "Hello ✔", // Subject line
     text: mailData.mailBody.plainText, // plain text body
     html: mailData.mailBody.html, // html body
