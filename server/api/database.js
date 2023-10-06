@@ -3,6 +3,7 @@ const fs = require("fs")
 
 const db = new Sequelize({
   dialect: 'sqlite',
+  dialectModulePath: "sqlite3",
   storage: './db.sqlite',
 });
 
