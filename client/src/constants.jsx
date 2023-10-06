@@ -10,6 +10,6 @@ export const tracking = {
     mail(userId) {
         return `<br/><br/><br/>
     Sent using Maily&nbsp;
-    <img src="${routes.SERVER_URL}/api/analytics/track-mail/${userId}">
+    <img src="${routes.SERVER_URL}/api/analytics/track-mail/">
     &nbsp;${new Date().getUTCDate()}`}
 }

@@ -82,7 +82,7 @@ const MailEditor = () => {
       mass: massMail,
       mailBody: {
         // plainText: html.replace(/<[^>]+>/g, ""),
-        html: html + (tracking ? tracking.mail(user.id): ""),
+        html: html + (tracking ? tracking.mail(""): ""),
       },
       schedule: false,
       scheduleTime: scheduleTime,
