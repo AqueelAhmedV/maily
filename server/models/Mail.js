@@ -35,7 +35,7 @@ const Mail = db.define("Mail", {
         allowNull: false
     },
     views: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         defaultValue: 0,
     },
     sentTime: {
