@@ -13,7 +13,7 @@ const db = new Sequelize({
 module.exports = db;
 
 
-for (model of fs.readdirSync(path.resolve("./models/")))
+for (model of ["Customer.js", "User.js", "Mail.js"])
   require(`./models/${model}`)
 
 // force sync all models and insert sample data
