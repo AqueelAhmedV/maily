@@ -11,7 +11,7 @@ const db = new Sequelize({
 
 module.exports = db;
 
-for (model of fs.readdirSync("./api/models/"))
+for (model of fs.readdirSync("./models/"))
   require(`./models/${model}`)
 
 // force sync all models and insert sample data

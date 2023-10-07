@@ -5,7 +5,7 @@ const app = express()
 const mailRoutes = require('./routes/mail') 
 const analyticsRoutes = require("./routes/analytics")
 const bodyParser = require('body-parser')
-const db = require("./database")
+const db = require("../database")
 
 app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
