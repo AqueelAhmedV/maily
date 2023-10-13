@@ -63,11 +63,12 @@ Client.afterCreate(async (client, _opts) => {
         UserId: client.UserId
     })
 })
+
 Client.afterDestroy(async (client, _opts) => {
+    console.log("Hey")
     await db.model("ChangeLog").create({
         TableName: 'Client',
         Operation: 'destroy',
-        Data: client.ClientId,
         RecordPk: client.ClientId,
         UserId: client.UserId
     })

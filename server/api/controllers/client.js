@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const {db} = require('../../database')
+const {db} = require('../database')
 
 
 
@@ -18,21 +18,22 @@ exports.streamClientList = async (req, res) => {
             order: [['id', 'DESC']],
             where: {
                 UserId: req.params.userId,
-                Seen: false
+                Seen: false,
+                TableName: "Client"
             },
             logging: false
         }).then((evt) => {
             // console.log(JSON.stringify(changes))
-            console.log("HEHE")
+            // console.log("HEHE")
             if (evt ) {
                 evt.setDataValue("Seen", true)
                 evt.save().then(() => {
-                    console.log("HUHU")
+                    console.log(evt.Operation)
                     res.write(`data: ${JSON.stringify(evt)}\n\n`);
                 })                
             }
         });
-    }, 2000)
+    }, 1000)
     res.on("close", () => {
         clearInterval(intervalId)
         res.end()
@@ -75,9 +76,10 @@ exports.addClient = async (req, res) => {
 // @route /delete
 exports.removeClient = async (req, res) => {
     try {
-        await db.model("Client").destroy({
+        let toDelete = await db.model("Client").findOne({
             where: req.body
         })
+        await toDelete.destroy()
         res.status(200).json({msg: "Succesfully deleted client"})
     } catch (err) {
         res.status(500).json(err)

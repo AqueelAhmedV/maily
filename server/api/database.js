@@ -6,7 +6,7 @@ const path = require("path");
 
 const db = new Sequelize({
   dialect: 'sqlite',
-  storage: ':memory:',
+  storage: './db.sqlite',
   dialectModule: sqlite,
 });
 
@@ -20,7 +20,7 @@ function intializeDb(db, isForced) {
           FirstName: "Test",
           LastName: "Aqueel",
           Email: "test.aqueel.v@gmail.com",
-          Password: "debramorgan"
+          Password: "debramorgan",
           })
           resolve({msg: "All tables synced, initialized DB", testUser})
       } catch (err) {
