@@ -5,17 +5,9 @@ const nodemailer = require('nodemailer')
 
 
 router.get('/list', async (req, res) => {
-    // db.all('SELECT * from clients', (err, data) => {
-    //     if(err){
-    //         console.log(err)
-    //         return res.status(404).json(err)
-    //     } else {
-    //         return res.status(200).json({clients: data})
-    //     }
-    // })
     try {
-      const users = await db.model("User").findAll()
-      res.status(200).json({clients: users})
+      const clients = await db.model("Client").findAll()
+      res.status(200).json({clients})
     } catch(err) {
       res.status(404).json(err)
     }
@@ -40,8 +32,8 @@ router.post('/send', async (req, res) => {
    try{
     let info = await transporter.sendMail({
     from: process.env.G_USER_EMAIL, // sender address
-    to: mailData.recipients.map((r) => r.emailId), // list of receivers
-    subject: "Hello ✔", // Subject line
+    to: mailData.recipients.map((r) => r.Email), // list of receivers
+    subject: mailData.subject, // Subject line
     text: mailData.mailBody.plainText, // plain text body
     html: mailData.mailBody.html, // html body
   }

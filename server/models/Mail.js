@@ -1,48 +1,43 @@
-const db = require("../database")
+const {db} = require("../database")
 const { DataTypes, DATE } = require("sequelize")
 const { uid } = require("uid")
 
 const Mail = db.define("Mail", {
-    id: {
+    MailId: {
         type: DataTypes.STRING,
         defaultValue: "M"+uid(7),
-        allowNull: false,
         primaryKey: true
     },
-    title: {
-        type: DataTypes.STRING,
+    Subject: {
+        type: DataTypes.TEXT,
         allowNull: false
     },
-    body: {
+    Body: {
         type: DataTypes.TEXT
     },
-    from: {
+    UserId: {
         type: DataTypes.STRING,
-        validate: {
-            isEmail: true,
-        },
-        allowNull: false,
         references: {
             model: "User",
-            key: "emailId"
+            key: "UserId"
         }
     },
-    to: {
+    ClientId: {
         type: DataTypes.STRING,
-        validate: {
-            isEmail: true,
-        },
-        allowNull: false
+        references: {
+            model: "Client",
+            key: "ClientId"
+        }
     },
-    views: {
+    Views: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
     },
-    sentTime: {
+    SentTime: {
         type: DataTypes.DATE,
         defaultValue: new Date()
     },
-    readTimes: {
+    ReadTimes: {
         type: DataTypes.ARRAY(DataTypes.DATE)
     },
 })

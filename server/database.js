@@ -10,24 +10,23 @@ const db = new Sequelize({
   dialectModule: sqlite,
 });
 
-module.exports = db;
 
+function intializeDb(db, isForced) {
+  return new Promise(async (resolve, reject) => {
+      try {
+          let syncedDb = await db.sync({force: isForced})
+          const { User } = syncedDb.models
+         let testUser =  await User.create({
+          FirstName: "Test",
+          LastName: "Aqueel",
+          Email: "test.aqueel.v@gmail.com",
+          Password: "debramorgan"
+          })
+          resolve({msg: "All tables synced, initialized DB", testUser})
+      } catch (err) {
+          reject(err)
+      }
+  })
+}
 
-for (model of ["Customer.js", "User.js", "Mail.js"])
-  require(`./models/${model}`)
-
-// force sync all models and insert sample data
-db.sync({force: true})
-.then((newDb) => {
-    console.log("All tables synced")
-    const { User } = newDb.models
-    User.create({
-      firstName: "Test",
-      lastName: "Aqueel",
-      emailId: "test.aqueel.v@gmail.com",
-      password: "damn"
-    }).then(() => {}).catch(console.log)
-})
-.catch((err) => {
-  console.log("Error syncing tables")
-})
+module.exports = {db, intializeDb};

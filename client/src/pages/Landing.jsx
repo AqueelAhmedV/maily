@@ -12,7 +12,7 @@ const Landing = () => {
             <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-12 select-none" style={{
               filter: "drop-shadow(0 0 50px #fff)"
             }}>
-              The one-stop <span className=' from-primary to-danger text-transparenttext-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-red-200 to-purple-600'>mail toolkit</span><br /><span>for content creators</span>
+              The one-stop <span className=' from-primary to-danger text-transparenttext-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-red-200 to-purple-600'>email toolkit</span><br /><span>for content creators</span>
             </h1>
 
             <Link to="/dashboard" className="border-white bg-transparent hover:bg-white hover:text-gray-800 text-xl text-white py-3 px-5 font-semibold border-2 rounded-md shadow-md hover:color-black hover:shadow-lg transition duration-300 ease-in-out" >

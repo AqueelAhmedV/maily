@@ -1,53 +1,53 @@
-const db = require("../database")
+const {db} = require("../database")
 const { DataTypes } = require("sequelize")
 const { uid } = require("uid")
 const bcrypt = require("bcrypt")
 
 
+
 const User = db.define('User', {
     // Model attributes are defined here
-    id: {
+    UserId: {
       type: DataTypes.STRING,
       defaultValue: "U"+uid(7),
-      allowNull: false,
       primaryKey: true
     },
-    emailId: {
+    Email: {
       type: DataTypes.STRING,
       validate: {
         isEmail: {msg: "Please enter a valid email address"}
       },
       unique: true
     },
-    password: {
+    Password: {
       type: DataTypes.STRING,
       set(val) {
         if (!val || typeof val !== 'string' || val === '') {
-          return this.setDataValue('password', null)
+          return this.setDataValue('Password', null)
         }
         const salt = bcrypt.genSaltSync(10)
-        this.setDataValue('password', bcrypt.hashSync(val, salt))
+        this.setDataValue('Password', bcrypt.hashSync(val, salt))
       },
       allowNull: false
     },
-    firstName: {
+    FirstName: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    lastName: {
+    LastName: {
       type: DataTypes.STRING
     },
-    fullName: {
+    FullName: {
       type: DataTypes.VIRTUAL,
       get() {
-        return `${this.firstName} ${this.lastName}`;
+        return `${this.FirstName} ${this.LastName}`;
       },
       set(value) {
-        throw new Error('Do not try to set the `fullName` value!');
+        throw new Error('Do not try to set the `FullName` value!');
       }
-    }    
+    }
   }, {
-    
+
   })
 
   module.exports = User

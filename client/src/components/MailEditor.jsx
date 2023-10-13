@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DefaultEditor } from "react-simple-wysiwyg";
 import { useLocation } from "react-router-dom";
 import DateTimePicker from "react-datetime-picker";
@@ -11,15 +11,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { routes, tracking } from "../constants";
 import Spinner from "./Spinner";
 import { Button } from "./common/Button";
+import UserContext from "../contexts/UserContext";
 
 const MailEditor = () => {
   const {
     state: { persons: recipients, massMail: massMail },
   } = useLocation();
+  const {user, setUser} = useContext(UserContext);
   // console.log(massMail);
   const [recs, setRecs] = useState(recipients);
   const [scheduleTime, setScheduleTime] = useState(new Date());
   const [from, setFrom] = useState("ncrypt.test@gmail.com");
+  const [subject, setSubject] = useState("");
   const [sending, setSending] = useState(false);
   const [track, setTrack] = useState(false)
   const [templates, setTemplates] = useState({
@@ -80,9 +83,10 @@ const MailEditor = () => {
       // from: from,
       recipients: recs,
       mass: massMail,
+      subject,
       mailBody: {
         // plainText: html.replace(/<[^>]+>/g, ""),
-        html: html + (tracking ? tracking.mail(""): ""),
+        html: html + (tracking ? tracking.mail(""): ""), // MOVE TO SERVER
       },
       schedule: false,
       scheduleTime: scheduleTime,
@@ -131,12 +135,21 @@ const MailEditor = () => {
           aria-label="Recipient name(s)"
           aria-describedby="basic-addon2"
           value={
-            recipients.map((r, i) => r.fullName).join(", ")
+            recipients.map((r, i) => r.FirstName).join(", ")
           }
           title={
-            recipients.map((r, i) => r.emailId).join(", ")
+            recipients.map((r, i) => r.Email).join(", ")
           }
           readOnly={true}
+        />
+      </div>
+      <div className="w-4/5 flex justify-between">
+        <label className="">Subject:</label>
+        <input
+          type="email"
+          className=""
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
         />
       </div>
       <div className="w-full flex justify-around">
