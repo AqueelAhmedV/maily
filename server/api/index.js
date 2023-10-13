@@ -7,7 +7,7 @@ const analyticsRoutes = require("./routes/analytics")
 const clientRoutes = require("./routes/client")
 const userRoutes = require("./routes/user")
 const bodyParser = require('body-parser')
-const {db, intializeDb} = require("./database")
+const {db, intializeDb} = require("../database")
 
 app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
@@ -27,7 +27,7 @@ app.use('/api/client', clientRoutes)
 app.use('/api/user', userRoutes)
 
 for (model of ["ChangeLog.js", "Client.js", "User.js", "Mail.js"])
-  require(`./models/${model}`)
+  require(`../models/${model}`)
 
 // sync all models and insert sample data
 intializeDb(db, true)

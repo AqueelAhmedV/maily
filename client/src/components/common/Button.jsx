@@ -6,7 +6,7 @@ const LoadingSvg = () => {
 }
 
 export const Button = ({ variant, text, loading, loadingText, ...props }) => {
-    console.log(props, loading, text)
+    // console.log(props, loading, text)
     return (
         <button {...props} className={
         `py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white 
