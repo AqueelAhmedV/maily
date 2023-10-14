@@ -3,78 +3,59 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { routes, testUser } from "../constants";
 import { flushSync } from "react-dom";
-import AddClient from "./AddClient";
 import UserContext from "../contexts/UserContext";
 import Spinner from "./Spinner";
 
 
-const Table = (props) => {
+const Table = ({ fetchData, loading, data }) => {
   const {user, setUser} = useContext(UserContext);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [selected, setSelected] = useState([]);
   
   const navigate = useNavigate();
 
-  const fetchData = () => {
-    setLoading(true)
-    axios.get(`${routes.SERVER_URL}/api/client/list/${user.UserId}`)
-    .then((res) => {
-      // console.log(res.data)
-      console.log(res.data)
-      setData(res.data)
-      setLoading(false)
-    })
-    .catch((err) => {
-      setLoading(false)
-      console.log(err)
-    })
-  }
+  
 
   useEffect(() => {
     if (user.UserId)
-    fetchData()
+    fetchData(user)
   }, [user])
 
-  const opHandlers = {
-    create: ((evt) => {
-      // console.log(evt)
+  // Server-Side Events implementation
+  // const opHandlers = {
+  //   create: ((evt) => {
+  //     // console.log(evt)
       
-      setData((prev) => ([...prev, JSON.parse(evt.Data)]))
-      setLoading(false)
-    }),
-    destroy: ((evt) =>  {
-      setData((prev) => (prev.filter(d => d.ClientId !== evt.RecordPk)))
-      // setLoading(false)
-    })
-  }   
-
-  useEffect(() => {
-    if (!user.UserId) return;
-    let clientStream; 
-    if ('EventSource' in window) {
-      setLoading(true)
-      clientStream = new EventSource(`${routes.SERVER_URL}/api/client/stream/${user.UserId}`)
-      clientStream.onmessage = (e) => {
-        e.preventDefault()
-        let evt = JSON.parse(e.data)
-        console.log(evt, new Date())
-        // console.log(msg)
-        opHandlers[evt.Operation](evt)
-        // fetchData()
-      }
-    }
-    return () => {
-      if (clientStream)
-      clientStream.close()
-    }
-  }, [user])
-
+  //     setData((prev) => ([...prev, JSON.parse(evt.Data)]))
+  //     setLoading(false)
+  //   }),
+  //   destroy: ((evt) =>  {
+  //     setData((prev) => (prev.filter(d => d.ClientId !== evt.RecordPk)))
+  //     // setLoading(false)
+  //   })
+  // }   
 
   // useEffect(() => {
-  //   // console.log(data)
-  // }, [data])
+  //   if (!user.UserId) return;
+  //   let clientStream; 
+  //   if ('EventSource' in window) {
+  //     setLoading(true)
+  //     clientStream = new EventSource(`${routes.SERVER_URL}/api/client/stream/${user.UserId}`)
+  //     clientStream.onmessage = (e) => {
+  //       e.preventDefault()
+  //       let evt = JSON.parse(e.data)
+  //       console.log(evt, new Date())
+  //       // console.log(msg)
+  //       opHandlers[evt.Operation](evt)
+  //       // fetchData()
+  //     }
+  //   }
+  //   return () => {
+  //     if (clientStream)
+  //     clientStream.close()
+  //   }
+  // }, [user])
+
 
   const handleSend = (e) => {
     console.log("redirecting to mail editor");
@@ -113,7 +94,11 @@ const Table = (props) => {
     axios.post(`${routes.SERVER_URL}/api/client/delete`, {
       ClientId: e.target.id
     })
-    .then(console.log).catch(console.log)
+    .then((res) => {
+      console.log(res)
+      if (user.UserId)
+      fetchData(user)
+    }).catch(console.log)
   };
 
 

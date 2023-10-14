@@ -5,7 +5,7 @@ import { routes } from "../constants"
 import UserContext from "../contexts/UserContext"
 
 
-const AddClient = ({ setClients }) => {
+const AddClient = ({ fetchData }) => {
     const {user, setUser} = useContext(UserContext);
     const [loading, setLoading] = useState(false)
 
@@ -23,6 +23,7 @@ const AddClient = ({ setClients }) => {
         }).then((res) => {
             console.log(res.data)
             setLoading(false)
+            fetchData(user)
         }).catch((err) => {
             console.log(err)
             setLoading(false)
