@@ -9,7 +9,9 @@ const userRoutes = require("./routes/user")
 const bodyParser = require('body-parser')
 const {db, intializeDb} = require("../database")
 
-app.use(cors())
+app.use(cors({
+    origin: "*",
+}))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
