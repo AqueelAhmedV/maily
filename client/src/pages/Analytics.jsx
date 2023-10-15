@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { routes } from "../constants";
 import UserContext from "../contexts/UserContext";
-import moment from 'moment'
+// import moment from 'moment'
 
 const Analytics = () => {
     const {user, setUser} = useContext(UserContext)
@@ -102,10 +102,10 @@ const Analytics = () => {
                             <td className="px-6 py-4">{d.Views}</td>
                             <td className="px-6 py-4"></td>
                             <td className="px-6 py-4">
-                                {JSON.parse(d.ReadTimes).length > 0 ? moment(JSON.parse(d.ReadTimes).at(-1)).fromNow():"Not yet opened"}
+                                {/* {JSON.parse(d.ReadTimes).length > 0 ? moment(JSON.parse(d.ReadTimes).at(-1)).fromNow():"Not yet opened"} */}
                             </td>
                             <td className="px-6 py-4">
-                                {moment(d.createdAt).fromNow()}
+                                {/* {moment(d.createdAt).fromNow()} */}
                             </td>
                         </tr>))}
                     </tbody>
