@@ -1,13 +1,7 @@
 const router = require('express').Router()
-const db = require('../../database')
-const fs = require('fs')
-const path = require("path")
+const analyticsFns = require("../../controllers/analytics")
 
-router.get("/track-mail", async (req, res) => {
-    console.log("Mail opened")
-    console.log(req)
-    res.setHeader("Content-Type", "image/webp");
-    res.send(fs.readFileSync(path.resolve(__dirname, "../assets/1.png")))
-})
+router.get("/track-mail/:mailId", analyticsFns.trackMailView)
+router.get("/list/:userId", analyticsFns.listAnalytics)
 
 module.exports = router

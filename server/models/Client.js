@@ -6,7 +6,7 @@ const { uid } = require("uid");
 const Client = db.define("Client", {
     ClientId: {
         type: DataTypes.STRING,
-        primaryKey: true
+        primaryKey: true,
     },
     UserId: {
         type: DataTypes.STRING,
@@ -54,24 +54,24 @@ Client.beforeCreate(async (client, _options) => {
     }
   });
 
-Client.afterCreate(async (client, _opts) => {
-    await db.model("ChangeLog").create({
-        TableName: 'Client',
-        Operation: 'create',
-        Data: JSON.stringify(client.dataValues),
-        RecordPk: client.ClientId,
-        UserId: client.UserId
-    })
-})
+// Client.afterCreate(async (client, _opts) => {
+//     await db.model("ChangeLog").create({
+//         TableName: 'Client',
+//         Operation: 'create',
+//         Data: JSON.stringify(client.dataValues),
+//         RecordPk: client.ClientId,
+//         UserId: client.UserId
+//     })
+// })
 
-Client.afterDestroy(async (client, _opts) => {
-    console.log("Hey")
-    await db.model("ChangeLog").create({
-        TableName: 'Client',
-        Operation: 'destroy',
-        RecordPk: client.ClientId,
-        UserId: client.UserId
-    })
-})
+// Client.afterDestroy(async (client, _opts) => {
+//     console.log("Hey")
+//     await db.model("ChangeLog").create({
+//         TableName: 'Client',
+//         Operation: 'destroy',
+//         RecordPk: client.ClientId,
+//         UserId: client.UserId
+//     })
+// })
 
 module.exports = Client

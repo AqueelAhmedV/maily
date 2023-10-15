@@ -28,7 +28,7 @@ app.use('/api/analytics', analyticsRoutes)
 app.use('/api/client', clientRoutes)
 app.use('/api/user', userRoutes)
 
-for (model of ["ChangeLog.js", "Client.js", "User.js", "Mail.js"])
+for (model of ["Client.js", "User.js", "Mail.js"])
   require(`../models/${model}`)
 
 // sync all models and insert sample data

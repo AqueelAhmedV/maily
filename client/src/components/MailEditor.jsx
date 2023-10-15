@@ -8,14 +8,14 @@ import "react-clock/dist/Clock.css";
 import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { routes, tracking } from "../constants";
+import { routes } from "../constants";
 import Spinner from "./Spinner";
 import { Button } from "./common/Button";
 import UserContext from "../contexts/UserContext";
 
 const MailEditor = () => {
   const {
-    state: { persons: recipients, massMail: massMail },
+    state: { persons: recipients, massMail },
   } = useLocation();
   const {user, setUser} = useContext(UserContext);
   // console.log(massMail);
@@ -85,17 +85,18 @@ const MailEditor = () => {
       mass: massMail,
       subject,
       mailBody: {
-        // plainText: html.replace(/<[^>]+>/g, ""),
-        html: html + (tracking ? tracking.mail(""): ""), // MOVE TO SERVER
+        plainText: html.replace(/<[^>]+>/g, ""),
+        html: html, // MOVE TO SERVER
       },
       schedule: false,
       scheduleTime: scheduleTime,
+      tracking: track,
+      userId: user.UserId,
+      clientId: recs.map((r) => r.ClientId)
     };
     // console.log(newData);
     axios
-      .post(`${routes.SERVER_URL}/api/mail/send`, {
-        data: newData,
-      })
+      .post(`${routes.SERVER_URL}/api/mail/send`, newData)
       .then((res) => {
 
         setSending(false);

@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react'
 import UserContext from './contexts/UserContext'
 import { routes } from './constants'
 import axios from 'axios'
+import Analytics from './pages/Analytics'
 
 function App() {
   
@@ -28,8 +29,9 @@ function App() {
         <Navbar/>
        <Routes>
           <Route exact path="/" element={<Landing/>}/>
-          <Route path='/dashboard' element={<Dashboard/>}/>
+          <Route path='/client-list' element={<Dashboard/>}/>
           <Route path='/send-mail' element={<MailEditor/>}/>
+          <Route path='/analytics' element={<Analytics/>}/>  
           <Route path="*" element={<NotFoundPage/>} />
           </Routes>
       </BrowserRouter>

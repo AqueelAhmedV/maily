@@ -1,11 +1,10 @@
 const {db} = require("../database")
-const { DataTypes, DATE } = require("sequelize")
+const { DataTypes } = require("sequelize")
 const { uid } = require("uid")
 
 const Mail = db.define("Mail", {
     MailId: {
         type: DataTypes.STRING,
-        defaultValue: "M"+uid(7),
         primaryKey: true
     },
     Subject: {
@@ -17,29 +16,25 @@ const Mail = db.define("Mail", {
     },
     UserId: {
         type: DataTypes.STRING,
-        references: {
-            model: "User",
-            key: "UserId"
-        }
+        allowNull: false
     },
     ClientId: {
-        type: DataTypes.STRING,
-        references: {
-            model: "Client",
-            key: "ClientId"
-        }
+        type: DataTypes.ARRAY(DataTypes.TEXT),
     },
     Views: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
     },
-    SentTime: {
-        type: DataTypes.DATE,
-        defaultValue: new Date()
-    },
     ReadTimes: {
-        type: DataTypes.ARRAY(DataTypes.DATE)
+        type: DataTypes.ARRAY(DataTypes.DATE),
     },
 })
+
+Mail.beforeCreate((mail, _opts) => {
+    if (!mail.ClientId || !Array.isArray(mail.ClientId) || mail.ClientId.length === 0)
+        throw new Error("Client Id list cannot be empty")
+    mail.setDataValue("MailId", "M"+uid(7))
+})
+
 
 module.exports = Mail

@@ -66,13 +66,13 @@ const Table = ({ fetchData, loading, data }) => {
         console.log("vT")
         flushSync(() => {
           navigate("/send-mail", {
-            state: { persons: data.filter(d => d.ClientId===e.target.id), massMail: false },
+            state: { persons: data.filter(d => d.ClientId===e.target.id), massMail: false, },
           });
         })    
       })
     }else
     navigate("/send-mail", {
-      state: { persons: data.filter(d => d.ClientId===e.target.id), massMail: false },
+      state: { persons: data.filter(d => d.ClientId===e.target.id), massMail: false, },
     });
   };
 
