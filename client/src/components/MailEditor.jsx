@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { DefaultEditor } from "react-simple-wysiwyg";
 import { useLocation } from "react-router-dom";
-import DateTimePicker from "react-datetime-picker";
-import "react-datetime-picker/dist/DateTimePicker.css";
-import "react-calendar/dist/Calendar.css";
-import "react-clock/dist/Clock.css";
+// import DateTimePicker from "react-datetime-picker";
+// import "react-datetime-picker/dist/DateTimePicker.css";
+// import "react-calendar/dist/Calendar.css";
+// import "react-clock/dist/Clock.css";
 import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -119,19 +119,19 @@ const MailEditor = () => {
       <ToastContainer />
       <div className="bg-white px-3 py-4 rounded-md aspect-square mt-3">
       <div className="w-4/5 flex justify-between">
-        <label className="">From:</label>
+        <label className="font-semibold">From:</label>
         <input
           type="email"
-          className=""
+          className="pl-2"
           value={from}
           onChange={(e) => setFrom(e.target.value)}
         />
       </div>
       <div className="w-4/5 flex justify-between">
-        <label className="">Recipients:</label>
+        <label className="font-semibold">Recipients:</label>
         <input
           type="text"
-          className=""
+          className="pl-2"
           placeholder="Recipient name(s)"
           aria-label="Recipient name(s)"
           aria-describedby="basic-addon2"
@@ -145,29 +145,30 @@ const MailEditor = () => {
         />
       </div>
       <div className="w-4/5 flex justify-between">
-        <label className="">Subject:</label>
+        <label className="font-semibold">Subject:</label>
         <input
           type="email"
-          className=""
+          className="pl-2"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
         />
       </div>
-      <div className="w-full flex justify-around">
-        <select placeholder="Select Template" onChange={handleTemplateChange}>
+      <div className="font-semibold w-full flex justify-around my-3 gap-3 h-8 ">
+        <select placeholder="Select Template" onChange={handleTemplateChange} className="rounded-sm outline-none border border-gray-600">
           {Object.entries(templates).map((t,i) => (
             <option key={i} value={t[0]}>{t[1].title}</option>
           ))}
         </select>
-        <Button style={track ? {
-            color: "var(--toastify-color-success"
-          }: {}} onClick={handleToggleTrack} text={`Tracking: ${track?"ON":"OFF"}`}/>
+        <Button style={{
+            color: track?"var(--toastify-color-success)":"var(--toastify-color-warning)",
+            fontSize: "10px"
+          }} onClick={handleToggleTrack} text={`Tracking: ${track?"ON":"OFF"}`}/>
       </div>
-      <div className="">
-        <DefaultEditor value={html} onChange={handleMailEdit} className="" />
+      <div className="max-h-[250px] overflow-y-scroll border border-gray-700 ">
+        <DefaultEditor value={html} onChange={handleMailEdit} />
       </div>
-      <div className="">
-        <div className="">
+      <div className="mt-2 flex justify-end">
+        {/* <div className="">
           <DateTimePicker value={scheduleTime} onChange={setScheduleTime} />
           <button
             type="submit"
@@ -175,7 +176,7 @@ const MailEditor = () => {
           >
             Schedule Send
           </button>
-        </div>
+        </div> */}
         <Button
           type="submit"
           onClick={handleMailSend}
