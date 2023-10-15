@@ -1,6 +1,7 @@
 const { db } = require('../database')
 const nodemailer = require('nodemailer');
 const { getTrackingPixel, getTimeSignature } = require('../utils/tracking');
+const { uid } = require('uid');
 
 exports.sendMail = async (req, res) => {
     console.log(req.body)
@@ -19,7 +20,8 @@ exports.sendMail = async (req, res) => {
             Subject: subject,
             Body: mailBody.html,
             UserId: userId,
-            ClientId: clientId
+            ClientId: clientId,
+            MailId: "M" + uid(7),
         })
         console.log(savedMail)
         try {

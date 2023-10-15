@@ -5,7 +5,8 @@ const { uid } = require("uid")
 const Mail = db.define("Mail", {
     MailId: {
         type: DataTypes.STRING,
-        primaryKey: true
+        primaryKey: true,
+        allowNull: false
     },
     Subject: {
         type: DataTypes.TEXT,
@@ -26,14 +27,14 @@ const Mail = db.define("Mail", {
         defaultValue: 0,
     },
     ReadTimes: {
-        type: DataTypes.ARRAY(DataTypes.DATE),
+        type: DataTypes.STRING,
+        defaultValue: '[]',
     },
 })
 
 Mail.beforeCreate((mail, _opts) => {
     if (!mail.ClientId || !Array.isArray(mail.ClientId) || mail.ClientId.length === 0)
         throw new Error("Client Id list cannot be empty")
-    mail.setDataValue("MailId", "M"+uid(7))
 })
 
 
