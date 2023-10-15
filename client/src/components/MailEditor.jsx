@@ -22,7 +22,7 @@ const MailEditor = () => {
   const [recs, setRecs] = useState(recipients);
   const [scheduleTime, setScheduleTime] = useState(new Date());
   const [from, setFrom] = useState("ncrypt.test@gmail.com");
-  const [subject, setSubject] = useState("");
+  const [subject, setSubject] = useState("Important Update");
   const [sending, setSending] = useState(false);
   const [track, setTrack] = useState(false)
   const [templates, setTemplates] = useState({

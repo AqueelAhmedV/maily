@@ -2,12 +2,21 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { routes } from "../constants";
 import UserContext from "../contexts/UserContext";
+import moment from 'moment'
 
 const Analytics = () => {
-    const [filterFn, setFilterFn] = useState(() => {})
     const {user, setUser} = useContext(UserContext)
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
+    const [tableRows, setTableRows] = useState([])
+    const handleSearch = (e) => {
+        console.log(e.target.value)
+        let resultRows = data.filter((d) => {
+            return (d.Body + d.Subject).toLowerCase().includes(e.target.value) 
+        })
+        setTableRows(resultRows)
+    }
+
     useEffect(() => {
         if(!user.UserId) return
         setLoading(true)
@@ -16,7 +25,7 @@ const Analytics = () => {
             setLoading(false)
             console.log(res.data)
             setData(res.data)
-            
+            setTableRows(res.data)
         })
         .catch((err) => {
             if (err.response.status === 404) 
@@ -52,7 +61,8 @@ const Analytics = () => {
                             type="text"
                             id="table-search"
                             className="outline-none block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Search for items"
+                            placeholder="Search by subject, mail body ..."
+                            onChange={handleSearch}
                         />
                     </div>
                 </div>
@@ -74,27 +84,28 @@ const Analytics = () => {
                             <th scope="col" className="px-6 py-3">
                                 Last Read
                             </th>
+                            <th scope="col" className="px-6 py-3">
+                                Sent Time
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                        data.map((d) => (<tr key={d.MailId} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        tableRows.map((d) => (<tr key={d.MailId} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th
                                 scope="row"
                                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
                                 {d.Subject}
                             </th>
-                            <td className="px-6 py-4">{d.MailBody}...</td>
+                            <td className="px-6 py-4">{d.Body.trim().replaceAll("\n", " ").slice(10,16)}...</td>
                             <td className="px-6 py-4">{d.Views}</td>
                             <td className="px-6 py-4"></td>
                             <td className="px-6 py-4">
-                                <a
-                                    href="#"
-                                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                >
-                                    Edit
-                                </a>
+                                {JSON.parse(d.ReadTimes).length > 0 ? moment(JSON.parse(d.ReadTimes).at(-1)).fromNow():"Not yet opened"}
+                            </td>
+                            <td className="px-6 py-4">
+                                {moment(d.createdAt).fromNow()}
                             </td>
                         </tr>))}
                     </tbody>
