@@ -6,14 +6,14 @@ const { Op } = require("sequelize")
 
 exports.trackMailView = async (req, res) => {
     console.log("Mail opened")
-    console.log(req)
+    // console.log(req)
     
     let mailRecord = await db.model("Mail").findByPk(req.params.mailId)
     if (!mailRecord) console.log("not found")
     if (mailRecord) {
         if (!mailRecord.ReadTimes)
             mailRecord.ReadTimes = []
-        mailRecord.ReadTimes.push(new Date())
+        mailRecord.ReadTimes = [...mailRecord.ReadTimes, new Date()]
         mailRecord.Views += 1
     }
     await mailRecord.save()
