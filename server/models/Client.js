@@ -6,7 +6,6 @@ const { uid } = require("uid");
 const Client = db.define("Client", {
     ClientId: {
         type: DataTypes.STRING,
-        primaryKey: true,
     },
     UserId: {
         type: DataTypes.STRING,
