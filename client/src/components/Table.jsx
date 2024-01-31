@@ -117,7 +117,10 @@ const Table = ({ fetchData, loading, data }) => {
         >
           <p className="font-bold">No data available</p>
           <p className="text-sm">
-            Click the refresh button below to check for data.
+            Click the refresh button below to check for data.<br/> 
+            <span className="text-red-500 text-xs">(The server does not support persistent memory and resets and goes 
+            idle on inactivity (free tier). Try reloading if not responsive.)
+            </span>
           </p>
           <button
             onClick={fetchData}

@@ -31,8 +31,8 @@ const AddClient = ({ fetchData }) => {
       }
 
     return (
-        <div className=" w-full h-min">
-            <form onSubmit={handleAddClient} className="flex justify-between">
+        <div className=" w-full h-min justify-center  flex my-2">
+            <form onSubmit={handleAddClient} className="w-2/3 flex items-center justify-between">
             <input
             type="text"
             placeholder="First Name"
