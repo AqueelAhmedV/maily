@@ -1,7 +1,6 @@
-const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
-const app = express()
+const app = require('express')()
 const mailRoutes = require('./routes/mail') 
 const analyticsRoutes = require("./routes/analytics")
 const clientRoutes = require("./routes/client")
@@ -12,6 +11,8 @@ const {db, intializeDb} = require("../database")
 app.use(cors({
     origin: "*",
 }))
+
+// deprecated: remove and replace with express builtin
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
@@ -37,6 +38,10 @@ intializeDb(db, true)
     console.info(msg, testUser.dataValues.UserId, db.models)
     app.listen(port, () => {
         console.info(`Server listening on port ${port}`)
+        console.warn(`
+change from sequelize to drizzle or TypeORM?
+make a (node subprocess?) cli to interact with sqlite db
+is it necessary? any alts?`)
     })
 })
 .catch(console.log)

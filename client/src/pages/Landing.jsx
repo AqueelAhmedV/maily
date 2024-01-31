@@ -15,7 +15,7 @@ const Landing = () => {
               The one-stop <span className=' from-primary to-danger text-transparenttext-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-red-200 to-purple-600'>email toolkit</span><br /><span>for content creators</span>
             </h1>
 
-            <Link to="/dashboard" className="border-white bg-transparent hover:bg-white hover:text-gray-800 text-xl text-white py-3 px-5 font-semibold border-2 rounded-md shadow-md hover:color-black hover:shadow-lg transition duration-300 ease-in-out" >
+            <Link to="/client-list" className="border-white bg-transparent hover:bg-white hover:text-gray-800 text-xl text-white py-3 px-5 font-semibold border-2 rounded-md shadow-md hover:color-black hover:shadow-lg transition duration-300 ease-in-out" >
               Dashboard
             </Link>
           </div>
