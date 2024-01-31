@@ -2,9 +2,9 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { routes, testUser } from "../constants";
-import { flushSync } from "react-dom";
 import UserContext from "../contexts/UserContext";
 import Spinner from "./Spinner";
+import { tryViewTransition } from "../utils/dom";
 
 
 const Table = ({ fetchData, loading, data }) => {
@@ -59,21 +59,9 @@ const Table = ({ fetchData, loading, data }) => {
 
   const handleSend = (e) => {
     console.log("redirecting to mail editor");
-    if (document.startViewTransition) {
-      console.log("yes")
-      // console.log(data)
-      document.startViewTransition(() => {
-        console.log("vT")
-        flushSync(() => {
-          navigate("/send-mail", {
-            state: { persons: data.filter(d => d.ClientId===e.target.id), massMail: false, },
-          });
-        })    
-      })
-    }else
-    navigate("/send-mail", {
+    tryViewTransition(navigate, "/send-mail", {
       state: { persons: data.filter(d => d.ClientId===e.target.id), massMail: false, },
-    });
+    })
   };
 
   const handleSelect = (e) => {

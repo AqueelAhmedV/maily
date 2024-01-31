@@ -3,6 +3,7 @@ import AddClient from "../components/AddClient";
 import Table from "../components/Table";
 import axios from "axios";
 import { routes } from "../constants";
+import { tryViewTransition } from "../utils/dom";
 
 
 const Dashboard = () => {
@@ -10,18 +11,18 @@ const Dashboard = () => {
     const [data, setData] = useState([]);
 
     const fetchData = (user) => {
-        setTableLoading(true)
+      tryViewTransition(setTableLoading, true)
         axios.get(`${routes.SERVER_URL}/api/client/list/${user.UserId}`)
         .then((res) => {
           // console.log(res.data)
           console.log(res.data)
-          setData(res.data)
-          setTableLoading(false)
+          tryViewTransition(setData, res.data)
+          tryViewTransition(setTableLoading, false)
         })
         .catch((err) => {
-          setTableLoading(false)
+          tryViewTransition(setTableLoading, false)
           if (err.response.status === 404) {
-            setData([])
+            tryViewTransition(setData, [])
           }
         })
       }

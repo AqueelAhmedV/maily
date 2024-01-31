@@ -3,6 +3,7 @@ import { Button } from "./common/Button"
 import axios from "axios"
 import { routes } from "../constants"
 import UserContext from "../contexts/UserContext"
+import { tryViewTransition } from "../utils/dom"
 
 
 const AddClient = ({ fetchData }) => {
@@ -11,7 +12,7 @@ const AddClient = ({ fetchData }) => {
 
     const handleAddClient = (e) => {
         e.preventDefault()
-        setLoading(true)
+        tryViewTransition(setLoading, true)
         const [{value: fName}, {value: lName},{value: email}] = e.target.elements
         // errors yet to be implemented so erraneous entries prevented
         console.log(user, fName, lName, email)
@@ -22,11 +23,11 @@ const AddClient = ({ fetchData }) => {
             UserId: user.UserId
         }).then((res) => {
             console.log(res.data)
-            setLoading(false)
+            tryViewTransition(setLoading, false)
             fetchData(user)
         }).catch((err) => {
             console.log(err)
-            setLoading(false)
+            tryViewTransition(setLoading, false)
         })
       }
 

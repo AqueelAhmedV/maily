@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { routes } from "../constants";
 import UserContext from "../contexts/UserContext";
 import moment from 'moment'
+import { tryViewTransition } from "../utils/dom";
 
 const Analytics = () => {
     const {user, setUser} = useContext(UserContext)
@@ -14,23 +15,23 @@ const Analytics = () => {
         let resultRows = data.filter((d) => {
             return (d.Body + d.Subject).toLowerCase().includes(e.target.value) 
         })
-        setTableRows(resultRows)
+        tryViewTransition(setTableRows, resultRows)
     }
 
     useEffect(() => {
         if(!user.UserId) return
-        setLoading(true)
+        tryViewTransition(setLoading, true)
         axios.get(`${routes.SERVER_URL}/api/analytics/list/${user.UserId}`)
         .then((res) => {
-            setLoading(false)
+            tryViewTransition(setLoading, false)
             console.log(res.data)
-            setData(res.data)
-            setTableRows(res.data)
+            tryViewTransition(setData, res.data)
+            tryViewTransition(setTableRows, res.data)
         })
         .catch((err) => {
             if (err.response.status === 404) 
-                setData([])
-            setLoading(false);
+                setData([]);
+            tryViewTransition(setLoading, false);
             console.log(err)
         })
     }, [user])
